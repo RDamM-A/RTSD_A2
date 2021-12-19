@@ -11,7 +11,7 @@
       "stopAtEntry": false,
       "cwd": "/home/rtsd-user/Desktop/real_time",
       "environment": [],
-      "program": "/home/rtsd-user/Desktop/real_time/${fileBasenameNoExtension}",
+      "program": "/home/rtsd-user/RTSD_A2/${fileBasenameNoExtension}",
       "internalConsoleOptions": "openOnSessionStart",
       "MIMode": "gdb",
       "miDebuggerPath": "/usr/bin/gdb",
