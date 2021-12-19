@@ -9,7 +9,7 @@
         ""
       ],
       "stopAtEntry": false,
-      "cwd": "/home/rtsd-user/Desktop/real_time",
+      "cwd": "/home/rtsd-user/RTSD_A2",
       "environment": [],
       "program": "/home/rtsd-user/RTSD_A2/${fileBasenameNoExtension}",
       "internalConsoleOptions": "openOnSessionStart",
