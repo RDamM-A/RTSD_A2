@@ -16,14 +16,14 @@ int main()
     double accum;
 
 
-    if( clock_gettime( CLOCK_REALTIME, &start) == -1 ) {
+    if( clock_gettime( CLOCK_MONOTONIC, &start) == -1 ) {
     perror( "clock gettime" );
     }
 
     a = pthread_create( &mythread, NULL, myloop, (void*) NULL);
     pthread_join( mythread, NULL);
 
-    if( clock_gettime( CLOCK_REALTIME, &stop) == -1 ) {
+    if( clock_gettime( CLOCK_MONOTONIC, &stop) == -1 ) {
     perror( "clock gettime" );
     }
 
