@@ -58,10 +58,10 @@ void *myloop( void *ptr )
     sigemptyset(&myset);
     sigaddset(&myset, SIGALRM);
 
-    //sigset_t myset = void *ptr;
-    struct sigevent myevent;
-    myevent.sigev_notify = SIGEV_SIGNAL;
-    myevent.sigev_signo = SIGALRM;
+    // //sigset_t myset = void *ptr;
+    // struct sigevent myevent;
+    // myevent.sigev_notify = SIGEV_SIGNAL;
+    // myevent.sigev_signo = SIGALRM;
 
 
 
@@ -75,7 +75,7 @@ void *myloop( void *ptr )
     
 
 
-    if(timer_create(CLOCK_MONOTONIC, &myevent, &mytimer_id) == -1 ) {
+    if(timer_create(CLOCK_MONOTONIC, NULL, &mytimer_id) == -1 ) {
         perror( "timer_create" );
         }   
 

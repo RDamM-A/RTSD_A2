@@ -31,7 +31,7 @@ int main()
     accum = ( stop.tv_sec - start.tv_sec )
             + (double)( stop.tv_nsec - start.tv_nsec )
             / (double)BILLION;
-    printf( "%lf\n", accum );
+    __real_printf( "%lf\n", accum );
     exit(0);
 }
 

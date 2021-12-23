@@ -2,12 +2,10 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <time.h>
-#include <signal.h>
 #include <math.h>
-#include <stdio.h>
+#include <unistd.h>
 
 #define BILLION  1000000000L;
-
 
 void *myloop( void *ptr );
 
@@ -15,27 +13,17 @@ int main()
 {
      pthread_t mythread;
     int a;
-    int mask;
     struct timespec start, stop;
     double accum;
-   //  int timer_create();
 
-    sigset_t myalrm;
-    sigemptyset(&myalrm);
-    sigaddset(&myalrm, SIGALRM);
-   // printf("%d\n",&myset);
+
     if( clock_gettime( CLOCK_REALTIME, &start) == -1 ) {
     perror( "clock gettime" );
     }
 
-    mask = pthread_sigmask(SIG_BLOCK, &myalrm, NULL); 
-    a = pthread_create( &mythread, NULL, myloop, NULL);
-    printf("%d\n",a);
-
+    a = pthread_create( &mythread, NULL, myloop, (void*) NULL);
     pthread_join( mythread, NULL);
 
-    printf("%d\n",a);
-    
     if( clock_gettime( CLOCK_REALTIME, &stop) == -1 ) {
     perror( "clock gettime" );
     }
@@ -51,29 +39,10 @@ int main()
 void *myloop( void *ptr )
 {
     int count = 0;
-    int mysig, ret_val;
-    int *mysigptr = &mysig;
-     timer_t mytimer_id;
-    sigset_t myset;
-    sigemptyset(&myset);
-    sigaddset(&myset, SIGALRM);
-
-    struct itimerspec it;
-    it.it_interval.tv_sec = 0;
-    it.it_interval.tv_nsec = 1000000;
-    it.it_value.tv_sec = it.it_interval.tv_sec;
-    it.it_value.tv_nsec = it.it_interval.tv_nsec;
-    //printf("%lf\n",(double) it.it_interval.tv_nsec);
-
-    
-
-
-    if(timer_create(CLOCK_REALTIME, NULL, &mytimer_id) == -1 ) {
-        perror( "timer_create" );
-        }   
-
-   
+    long s;
+    long ns;
     void pthread_exit(void *retval);
+    struct timespec tp;
     while (count < 5000)
     { 
     float res1= atan(tan(atan(tan(sqrt(3.1416/1)))));
@@ -92,15 +61,25 @@ void *myloop( void *ptr )
     float res14= atan(tan(atan(tan(sqrt(3.1416/14)))));
     float res15= atan(tan(atan(tan(sqrt(3.1416/15)))));
     
-    if(timer_settime(mytimer_id,0, &it, NULL) == -1 ) {
-         perror( "timer_settime" );
-      }
-
-    ret_val = sigwait(&myset,&mysig);
+    if (clock_gettime(CLOCK_REALTIME, &tp) == -1) {
+        perror("monotonic_clock");
+    };
+    //printf( "%lf and %lf\n  ", (double) tp.tv_sec, (double) tp.tv_nsec);
+    if(tp.tv_nsec>=999000000L){
+         s = tp.tv_sec +1;
+         ns = tp.tv_nsec-999000000L;
+    }
+    else{
+        s = tp.tv_sec;
+        ns = tp.tv_nsec + 1000000L;
+    }
+    clock_nanosleep(CLOCK_REALTIME, TIMER_ABSTIME,(const struct timespec[]){{s,ns}},NULL);
+    //nanosleep((const struct timespec[]){{0, 1000000L}}, NULL);
     count++;
+    printf("%d\n", count );
     }
-
+//sleep(60);
 pthread_exit;
-    }
+}
 
 
